@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to Azure
         run: |
           ssh -o StrictHostKeyChecking=no azureuser@128.85.131.126 -i ~/.ssh/azure_ssh_key.pem
-            cd /home/azureuser/fastapi-book-project &&
+            cd fastapi-book-project &&
             git pull origin main &&
             source venv/bin/activate &&
             pip install -r requirements.txt &&
