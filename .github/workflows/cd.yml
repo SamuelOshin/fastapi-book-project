@@ -19,6 +19,8 @@ jobs:
           python-version: '3.12'
 
       - name: Set Up SSH Key
+        env:
+          AZURE_SSH_KEY: ${{ secrets.AZURE_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
           echo "$AZURE_SSH_KEY" > ~/.ssh/azure_ssh_key.pem
@@ -26,12 +28,10 @@ jobs:
           
       - name: Deploy to Azure
         run: |
-          ssh -i ~/.ssh/azure_ssh_key.pem -o StrictHostKeyChecking=no azureuser@128.85.131.126 '
+          ssh -o StrictHostKeyChecking=no azureuser@128.85.131.126 -i ~/.ssh/azure_ssh_key.pem
             cd /home/azureuser/fastapi-book-project &&
             git pull origin main &&
             source venv/bin/activate &&
             pip install -r requirements.txt &&
             sudo systemctl restart fastapi-book
-          '
-        env:
-          AZURE_SSH_KEY: ${{ secrets.AZURE_SSH_KEY }}
+          
