@@ -25,15 +25,14 @@ jobs:
           mkdir -p ~/.ssh
           echo "$AZURE_SSH_KEY" > ~/.ssh/azure_ssh_key.pem
           chmod 600 ~/.ssh/azure_ssh_key.pem
+          ssh-keyscan -H 128.85.131.126 >> ~/.ssh/known_hosts
           
       - name: Deploy to Azure
         run: |
-          ssh -o StrictHostKeyChecking=no azureuser@128.85.131.126 -i ~/.ssh/azure_ssh_key.pem
-            git clone https://github.com/SamuelOshin/fastapi-book-project.git &&
-            cd fastapi-book-project &&
-            python -m venv venv &&
-            source venv/bin/activate &&
-            pip install -r requirements.txt &&
-            touch random &&
-            sudo systemctl restart fastapi-book
-          
+          ssh azureusert@128.85.131.126 <<EOF
+            cd fastapi-book-project
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            sudo systemctl restart fastapi-book.service
+          EOF
