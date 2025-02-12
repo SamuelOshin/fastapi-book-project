@@ -32,7 +32,7 @@ jobs:
             git clone https://github.com/SamuelOshin/fastapi-book-project.git &&
             cd fastapi-book-project &&
             python -m venv venv &&
-            source /venv/bin/activate &&
+            source venv/bin/activate &&
             pip install -r requirements.txt &&
             sudo systemctl restart fastapi-book
           
